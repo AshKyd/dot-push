@@ -1,24 +1,11 @@
 #!/usr/bin/env bash
 #
-# zeekay/push ellipsis package
+# ashkyd/push ellipsis package
 
-# The following hooks can be defined to customize behavior of your package:
-# pkg.install() {
-#     fs.link_files $PKG_PATH
-# }
+pkg.link() {
+    fs.link_rfile push $ELLIPSIS_PATH/bin/push
+}
 
-# pkg.push() {
-#     git.push
-# }
-
-# pkg.pull() {
-#     git.pull
-# }
-
-# pkg.installed() {
-#     git.status
-# }
-#
-# pkg.status() {
-#     git.diffstat
-# }
+pkg.unlink() {
+    rm $ELLIPSIS_PATH/bin/push
+}

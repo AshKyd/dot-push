@@ -1,0 +1,23 @@
+# Push current branch to origin.
+BRANCH=`git rev-parse --symbolic-full-name --abbrev-ref HEAD`;
+
+# Default dangerous branch is develop
+if [ -z "$PUSH_DANGER_BRANCH" ]
+then
+	PUSH_DANGER_BRANCH="develop";
+fi
+
+# Don't push to dangerous branches.
+if [ "$BRANCH" != "$PUSH_DANGER_BRANCH" ]
+then
+	# Do the push
+	echo "git push origin $BRANCH"
+	git push origin $BRANCH;
+	if [ $? -ne 0 ]; then
+		DIR=`pwd`;
+		PROJECT=`basename $DIR`;
+		which notify-send>/dev/null 2>&1 && notify-send "Push failed" "$PROJECT" --icon=dialog-warning;
+	fi
+else
+	echo "Not pushing to dangerous branch '$BRANCH'. If this is intentional, you will need to do this manually."
+fi
